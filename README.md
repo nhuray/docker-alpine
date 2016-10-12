@@ -1,12 +1,10 @@
-[![](https://badge.imagelayers.io/1science/alpine:latest.svg)](https://imagelayers.io/?images=1science/alpine:latest 'Get your own badge on imagelayers.io')
+# What is Alpine Linux?
 
-# What is Alpine Linux? 
+![logo](logo.png)
 
-![logo](https://raw.githubusercontent.com/1science/docker-alpine/latest/logo.png)
+[Alpine Linux](http://alpinelinux.org/) is a Linux distribution built around [musl libc](http://www.musl-libc.org/) and [BusyBox](http://www.busybox.net/).
 
-[Alpine Linux](http://alpinelinux.org/) is a Linux distribution built around [musl libc](http://www.musl-libc.org/) and [BusyBox](http://www.busybox.net/). 
-
-This image is based on the well tested and documented [gliderlabs/alpine](http://gliderlabs.viewdocs.io/docker-alpine/) image. 
+This image is based on the well tested and documented [gliderlabs/alpine](http://gliderlabs.viewdocs.io/docker-alpine/) image.
 This makes Alpine Linux a great image base for utilities and even production applications. [Read more about Alpine Linux here](https://www.alpinelinux.org/about/) and you can see how their mantra fits in right at home with Docker images.
 
 # Included packages
@@ -24,21 +22,21 @@ To get you started, a set of packages have been integrated:
 Use this as base for your own containers:
 
 ```
-FROM 1science/alpine
+FROM bandsintown/alpine
 RUN apk-install <package_name>
 
 CMD ["/bin/bash"]
 ```
 
-or run it directly : 
+or run it directly :
 
 ```
-docker run -ti 1science/alpine
+docker run -ti bandsintown/alpine
 ```
 
 # Build
 
-This project is configured as an [automated build in Dockerhub](https://hub.docker.com/r/1science/alpine/). 
+This project is configured as an [automated build in Dockerhub](https://hub.docker.com/r/bandsintown/alpine/).
 
 Each branch give the related image tag.  
 

@@ -1,9 +1,9 @@
 #
-# 1science Alpine Linux image
+# Base Alpine Linux image
 #
 
 FROM gliderlabs/alpine:3.4
-MAINTAINER 1science Devops Team <devops@1science.org>
+MAINTAINER Devops Team <devops@bandsintown.com>
 
 # Install root filesystem
 ADD ./rootfs /
