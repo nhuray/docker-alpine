@@ -1,6 +1,6 @@
 # What is Alpine Linux?
 
-![logo](logo.png)
+![logo](https://github.com/bandsintown-canada/docker-alpine/blob/latest/logo.png)
 
 [Alpine Linux](http://alpinelinux.org/) is a Linux distribution built around [musl libc](http://www.musl-libc.org/) and [BusyBox](http://www.busybox.net/).
 
