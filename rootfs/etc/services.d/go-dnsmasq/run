@@ -1,0 +1,12 @@
+#!/usr/bin/execlineb -P
+
+with-contenv
+backtick -D "" -n DISABLE_DNSMASQ { printcontenv DISABLE_DNSMASQ }
+importas -u DISABLE_DNSMASQ DISABLE_DNSMASQ
+ifelse { s6-test -n ${DISABLE_DNSMASQ} }
+{
+    fdmove -c 2 1
+	tail -f /dev/null
+}
+fdmove -c 2 1
+go-dnsmasq --default-resolver --enable-search --hostsfile=/etc/hosts
