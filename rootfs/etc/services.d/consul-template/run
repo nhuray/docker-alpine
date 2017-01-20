@@ -1,0 +1,30 @@
+#!/usr/bin/execlineb -P
+
+if { s6-svwait -t 5000 -u /var/run/s6/services/go-dnsmasq }
+with-contenv
+backtick -D "" -n DISABLE_CONSUL_TEMPLATE { printcontenv DISABLE_CONSUL_TEMPLATE }
+importas -u DISABLE_CONSUL_TEMPLATE DISABLE_CONSUL_TEMPLATE
+ifelse { s6-test -n ${DISABLE_CONSUL_TEMPLATE} }
+{
+    fdmove -c 2 1
+	tail -f /dev/null
+}
+
+backtick -D "" -n RUN_ON_AWS { printcontenv RUN_ON_AWS }
+importas -u RUN_ON_AWS RUN_ON_AWS
+backtick -D "" -n CONSUL_ADDRESS { printcontenv CONSUL_ADDRESS }
+importas -u CONSUL_ADDRESS CONSUL_ADDRESS
+
+ifelse { s6-test -n ${RUN_ON_AWS} }
+{
+    # Resolve the EC2 IP running a Consul Agent through API
+    # We assume the port is the default one (8500)
+    HOST_IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
+    CONSUL_ADDRESS="$HOST_IP:8500"
+}
+
+ifelse { s6-test -d /etc/consul-template/conf }
+{
+    fdmove -c 2 1
+    consul-template -consul ${CONSUL_ADDRESS} -config "/etc/consul-template/conf"
+}
