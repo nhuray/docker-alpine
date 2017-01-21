@@ -36,7 +36,8 @@ On container start the DNS resolver parses the `nameserver` and `search` entries
 
 The official Alpine Docker image is well documented, so check out [their documentation](http://gliderlabs.viewdocs.io/docker-alpine) to learn more about building micro Docker images with Alpine Linux.
 
-# Basic usage    
+## Basic usage    
+
 Building your own image based on this image is as easy as:
 
 
