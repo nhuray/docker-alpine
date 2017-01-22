@@ -1,7 +1,11 @@
 #!/usr/bin/with-contenv sh
 set -e
 
-if [ -n ${RUN_ON_AWS} ]; then
+if [ "${DISABLE_CONSUL_TEMPLATE}" = "true" ]; then
+  exit 0
+fi
+
+if [ "${RUN_ON_AWS}" = "true" ]; then
     # Resolve the EC2 IP running a Consul Agent through API
     # We assume the port is the default one (8500)
     CONSUL_ADDRESS="$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4):8500"
