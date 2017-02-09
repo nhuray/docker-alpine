@@ -11,7 +11,8 @@ ENV S6_OVERLAY_VERSION=1.18.1.5 GODNSMASQ_VERSION=1.0.7 CONSUL_TEMPLATE_VERSION=
 ADD ./rootfs /
 
 # Install base packages
-RUN apk update && apk upgrade && \
+RUN adduser -D -u 1000 app \
+    && apk update && apk upgrade && \
     apk-install curl wget bash tree && \
     curl -Ls https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-amd64.tar.gz | tar -xz -C / && \
     curl -Ls https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip -o consul-template.zip && unzip consul-template.zip -d /usr/local/bin && \
@@ -21,7 +22,5 @@ RUN apk update && apk upgrade && \
     echo -ne "Alpine Linux 3.4 image. (`uname -rsv`)\n" >> /root/.built && \
     echo -ne "- with S6 Overlay: $S6_OVERLAY_VERSION, Go DNS Mask: $GODNSMASQ_VERSION, Consul Template: $CONSUL_TEMPLATE_VERSION\n" >> /root/.built
 
-
-#ENTRYPOINT ["/init"]
 # Define bash as default command
 CMD ["/bin/bash"]
