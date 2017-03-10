@@ -23,5 +23,11 @@ RUN adduser -D -u 1000 app \
     echo -ne "Alpine Linux 3.5 image. (`uname -rsv`)\n" >> /root/.built && \
     echo -ne "- with S6 Overlay: $S6_OVERLAY_VERSION, Go DNS Mask: $GODNSMASQ_VERSION, Consul Template: $CONSUL_TEMPLATE_VERSION, Consul: $CONSUL_VERSION\n" >> /root/.built
 
+# Disable S6 logs on stdout/stderr
+ENV S6_LOGGING=1
+
+# Enable S6 as default entrypoint
+ENTRYPOINT ["/init"]
+
 # Define bash as default command
 CMD ["/bin/bash"]
