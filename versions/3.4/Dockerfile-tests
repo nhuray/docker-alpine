@@ -1,0 +1,16 @@
+FROM bandsintown/alpine:3.4
+
+ENV BATS_VERSION=0.4.0
+
+RUN apk-install bind-tools bc \
+    && curl -Ls https://codeload.github.com/sstephenson/bats/zip/v$BATS_VERSION -o /tmp/bats.zip \
+	&& cd /tmp \
+	&& unzip -q bats.zip \
+	&& ./bats-${BATS_VERSION}/install.sh /usr/local \
+	&& ln -sf /usr/local/libexec/bats /usr/local/bin/bats \
+	&& rm -f bats.zip
+
+COPY tests /tests
+WORKDIR /tests
+
+CMD ["bash"]
