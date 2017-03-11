@@ -4,6 +4,8 @@
 }
 
 @test "service 'consul' should be present" {
+  test $(bc <<< "$VERSION >= 3.5") -eq 0 && skip "Service
+   not installed in this version"
   run which consul
   [ $status -eq 0 ]
 }

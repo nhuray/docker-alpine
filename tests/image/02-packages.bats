@@ -19,11 +19,13 @@
 }
 
 @test "package 'jq' should be present" {
+  test $(bc <<< "$VERSION >= 3.5") -eq 0 && skip "Package not installed in this version"
   run which jq
   [ $status -eq 0 ]
 }
 
 @test "package 'dig' should be present" {
+  test $(bc <<< "$VERSION >= 3.5") -eq 0 && skip "Package not installed in this version"
   run which dig
   [ $status -eq 0 ]
 }
