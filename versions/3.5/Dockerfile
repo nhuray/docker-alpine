@@ -11,8 +11,7 @@ ENV S6_OVERLAY_VERSION=1.19.1.1 GODNSMASQ_VERSION=1.0.7 CONSUL_TEMPLATE_VERSION=
 COPY rootfs /
 
 # Install base packages
-RUN adduser -D -u 1000 app \
-    && apk update && apk upgrade && \
+RUN apk update && apk upgrade && \
     apk-install curl wget bash tree jq bind-tools && \
     curl -Ls https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-amd64.tar.gz | tar -xz -C / && \
     curl -Ls https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip -o consul-template.zip && unzip consul-template.zip -d /usr/local/bin && \
