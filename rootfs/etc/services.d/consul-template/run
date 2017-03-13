@@ -1,5 +1,4 @@
 #!/usr/bin/with-contenv sh
-set -e
 
 if [ "${DISABLE_CONSUL_TEMPLATE}" = "true" ]; then
   exit 0
