@@ -1,16 +1,9 @@
-@test "service 'consul-template' should be present" {
-  run which consul-template
+@test "service 'consul-template' should be installed" {
+  run test -f /etc/services.d/consul-template/run
   [ $status -eq 0 ]
 }
 
-@test "service 'consul' should be present" {
-  test $(bc <<< "$VERSION >= 3.5") -eq 0 && skip "Service
-   not installed in this version"
-  run which consul
-  [ $status -eq 0 ]
-}
-
-@test "service 'go-dnsmasq' should be present" {
-  run which go-dnsmasq
+@test "service 'go-dnsmasq' should be installed" {
+  run test -f /etc/services.d/go-dnsmasq/run
   [ $status -eq 0 ]
 }
