@@ -68,5 +68,5 @@ steps:
     command: make build
   - wait
   - label: ':hammer: Run tests'
-    command: make release
+    command: make test
 EOF
