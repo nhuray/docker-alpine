@@ -8,7 +8,6 @@ SHELL := bash
 IMAGE = bandsintown/alpine
 IMAGE_TEST=$(IMAGE)-test
 VERSIONS = 3.4 3.5
-VERSION =
 BUILD_NUM = $(shell git rev-parse --short HEAD)
 
 all:
@@ -27,6 +26,9 @@ do/build:
 	docker build -t $(IMAGE):$(VERSION) -f versions/$(VERSION)/Dockerfile .
 	docker tag $(IMAGE):$(VERSION) $(IMAGE):$(VERSION)-$(BUILD_NUM)
 
+debug: do/build-test
+	docker-compose -f debug.yml run $(TEST)
+
 test:
 	@$(foreach var,$(VERSIONS),$(MAKE) do/test VERSION=$(var);)
 
@@ -34,6 +36,7 @@ do/test: do/build-test
 	docker-compose -f tests.yml up --force-recreate --abort-on-container-exit --remove-orphans test-image
 	docker-compose -f tests.yml up --force-recreate --abort-on-container-exit --remove-orphans test-dns
 	docker-compose -f tests.yml up --force-recreate --abort-on-container-exit --remove-orphans test-dns-multiple
+	docker-compose -f tests.yml up --force-recreate --abort-on-container-exit --remove-orphans test-consul-template
 
 do/build-test:
 	docker build -t $(IMAGE_TEST):$(VERSION) -f versions/$(VERSION)/Dockerfile-tests .
