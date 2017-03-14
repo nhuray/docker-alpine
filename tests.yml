@@ -1,0 +1,34 @@
+# This docker-compose yml describe the services to run locally
+version: '2'
+
+# Defines the services
+services:
+
+  # Test image (packages, services, scripts)
+  test-image:
+    image: bandsintown/alpine-test:${VERSION}
+    command: bats /tests/image
+    environment:
+      - VERSION=${VERSION}
+
+  # Tests with only one DNS Nameserver and Search Domain
+  test-dns:
+    image: bandsintown/alpine-test:${VERSION}
+    command: bats /tests/dnsmasq/01-resolve_dns.bats
+    dns: 8.8.4.4
+    dns_search: 10.0.0.1.xip.io
+    environment:
+      - VERSION=${VERSION}
+
+  # Tests with Multiple DNS Nameserver and Search Domain
+  test-dns-multiple:
+    image: bandsintown/alpine-test:${VERSION}
+    command: bats /tests/dnsmasq/02-resolve_dns_multiple.bats
+    dns:
+     - 8.8.4.4
+     - 8.8.8.8
+    dns_search:
+      - google.com
+      - video.google.com
+    environment:
+      - VERSION=${VERSION}

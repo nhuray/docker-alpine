@@ -31,13 +31,12 @@ test:
 	@$(foreach var,$(VERSIONS),$(MAKE) do/test VERSION=$(var);)
 
 do/test: do/build-test
-	@echo "=> running tests for $(IMAGE):$(VERSION)-$(BUILD_NUM)"
-	docker run -e VERSION=$(VERSION) $(IMAGE_TEST):$(VERSION)-$(BUILD_NUM) bats /tests/image
-	docker run -e VERSION=$(VERSION) --dns=8.8.4.4 --dns-search=10.0.0.1.xip.io $(IMAGE_TEST):$(VERSION)-$(BUILD_NUM) bats /tests/dnsmasq/01-resolve_dns.bats
-	docker run -e VERSION=$(VERSION) --dns 8.8.4.4 --dns 8.8.8.8 --dns-search google.com --dns-search video.google.com $(IMAGE_TEST):$(VERSION)-$(BUILD_NUM) bats /tests/dnsmasq/02-resolve_dns_multiple.bats
+	docker-compose -f tests.yml up --force-recreate --abort-on-container-exit --remove-orphans test-image
+	docker-compose -f tests.yml up --force-recreate --abort-on-container-exit --remove-orphans test-dns
+	docker-compose -f tests.yml up --force-recreate --abort-on-container-exit --remove-orphans test-dns-multiple
 
 do/build-test:
-	docker build -t $(IMAGE_TEST):$(VERSION)-$(BUILD_NUM) -f versions/$(VERSION)/Dockerfile-tests .
+	docker build -t $(IMAGE_TEST):$(VERSION) -f versions/$(VERSION)/Dockerfile-tests .
 
 release: git-tag
 	@$(foreach var,$(VERSIONS),$(MAKE) do/release VERSION=$(var);)
