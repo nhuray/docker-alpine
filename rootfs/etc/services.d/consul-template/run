@@ -4,10 +4,11 @@ if [ "${DISABLE_CONSUL_TEMPLATE}" = "true" ]; then
   exit 0
 fi
 
-if [ "${RUN_ON_AWS}" = "true" ]; then
+if [ -z "${CONSUL_ADDRESS}" ]; then
     # Resolve the EC2 IP running a Consul Agent through API
     # We assume the port is the default one (8500)
-    CONSUL_ADDRESS="$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4):8500"
+    LOCAL_IP_V4="$(curl -s --connect-timeout 5 http://169.254.169.254/latest/meta-data/local-ipv4)"
+    test -n "${LOCAL_IP_V4}" && CONSUL_ADDRESS="${LOCAL_IP_V4}:${CONSUL_PORT:-8500}"
 fi
 
 if [ -n "${CONSUL_ADDRESS}" -a -d /etc/consul-template/conf ]; then
