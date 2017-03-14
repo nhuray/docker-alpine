@@ -13,12 +13,13 @@
 
 
 @test "service 'go-dnsmasq' is supervised" {
-  pid=$(ps -o pid,comm | grep go-dnsmasq | awk '{$1=$1};1' | cut -d' ' -f1)
+  service="go-dnsmasq"
+  pid=$(ps -o pid,comm | grep "$service" | awk '{$1=$1};1' | cut -d' ' -f1)
   [ $pid -gt 0 ]
 
   kill -9 $pid && sleep 1
 
-  new_pid=$(ps -o pid,comm | grep go-dnsmasq | awk '{$1=$1};1' | cut -d' ' -f1)
+  new_pid=$(ps -o pid,comm | grep "$service" | awk '{$1=$1};1' | cut -d' ' -f1)
   [ $new_pid -gt 0 ]
 
   [ $pid != $new_pid ]
