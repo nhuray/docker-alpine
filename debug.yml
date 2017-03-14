@@ -4,17 +4,17 @@ version: '2'
 # Defines the services
 services:
 
-  # Test debug image (packages, services, scripts)
+  # Test image (packages, services, scripts)
   test-image:
-    extends:
-      file: tests.yml
-      service: test-image
+    image: bandsintown/alpine-test:${VERSION}
     command: bash
-    stdin_open: true
-    tty: true
-    working_dir: /tests/image
+    depends_on:
+      - consul
+    environment:
+      - VERSION=${VERSION}
+      - CONSUL_ADDRESS=consul:8500
 
-  # Test debug with only one DNS Nameserver and Search Domain
+  # Debug tests for DNSMASQ with only one DNS Nameserver and Search Domain
   test-dns:
     extends:
       file: tests.yml
@@ -24,7 +24,7 @@ services:
     tty: true
     working_dir: /tests/go-dnsmasq
 
-  # Test debug  with Multiple DNS Nameserver and Search Domain
+  # Debug tests for DNSMASQ with Multiple DNS Nameserver and Search Domain
   test-dns-multiple:
      extends:
        file: tests.yml

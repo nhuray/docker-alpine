@@ -1,21 +1,5 @@
-# #!/usr/bin/env bats
-#
+#!/usr/bin/env bats
 load helpers
-#
-# # @test "service 'consul-template' is supervised" {
-# #   service="consul-template"
-# #   pid=$(ps -o pid,comm | grep "$service" | awk '{$1=$1};1' | cut -d' ' -f1)
-# #   [ $pid -gt 0 ]
-# #
-# #   kill -9 $pid && sleep 1
-# #
-# #   new_pid=$(ps -o pid,comm | grep "$service" | awk '{$1=$1};1' | cut -d' ' -f1)
-# #   [ $new_pid -gt 0 ]
-# #
-# #   [ $pid != $new_pid ]
-# # }
-#
-
 
 @test "templates using 'range services' function are well rendered" {
   # Declare the service

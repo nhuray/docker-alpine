@@ -15,14 +15,14 @@
 @test "service 'go-dnsmasq' is supervised" {
   service="go-dnsmasq"
   pid=$(ps -o pid,comm | grep "$service" | awk '{$1=$1};1' | cut -d' ' -f1)
-  [ $pid -gt 0 ]
+  [ "$pid" -gt 0 ]
 
   kill -9 $pid && sleep 1
 
   new_pid=$(ps -o pid,comm | grep "$service" | awk '{$1=$1};1' | cut -d' ' -f1)
-  [ $new_pid -gt 0 ]
+  [ "$new_pid" -gt 0 ]
 
-  [ $pid != $new_pid ]
+  [ "$pid" != "$new_pid" ]
 }
 
 # ------ Consul Template ------
@@ -30,4 +30,18 @@
 @test "service 'consul-template' should be installed" {
   run test -f /etc/services.d/consul-template/run
   [ $status -eq 0 ]
+}
+
+
+@test "service 'consul-template' is supervised" {
+  service="consul-template"
+  pid=$(ps -o pid,comm | grep "$service" | awk '{$1=$1};1' | cut -d' ' -f1)
+  [ "$pid" -gt 0 ]
+
+  kill -9 $pid && sleep 1
+
+  new_pid=$(ps -o pid,comm | grep "$service" | awk '{$1=$1};1' | cut -d' ' -f1)
+  [ "$new_pid" -gt 0 ]
+
+  [ "$pid" != "$new_pid" ]
 }

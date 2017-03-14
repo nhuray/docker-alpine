@@ -7,7 +7,9 @@ services:
   # Test image (packages, services, scripts)
   test-image:
     image: bandsintown/alpine-test:${VERSION}
-    command: bats /tests/image
+    command: dockerize -wait http://consul:8500 -timeout 10s bats /tests/image
+    depends_on:
+      - consul
     environment:
       - VERSION=${VERSION}
 
