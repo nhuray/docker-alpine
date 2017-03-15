@@ -12,6 +12,7 @@ services:
       - consul
     environment:
       - VERSION=${VERSION}
+      - CONSUL_ADDRESS=consul:8500
 
   # Tests with only one DNS Nameserver and Search Domain
   test-dns:

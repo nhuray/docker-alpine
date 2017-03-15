@@ -13,6 +13,9 @@ services:
     environment:
       - VERSION=${VERSION}
       - CONSUL_ADDRESS=consul:8500
+    stdin_open: true
+    tty: true
+    working_dir: /tests/image
 
   # Debug tests for DNSMASQ with only one DNS Nameserver and Search Domain
   test-dns:
