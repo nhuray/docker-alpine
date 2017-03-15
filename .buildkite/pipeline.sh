@@ -16,10 +16,10 @@ if [ "$RELEASE_NAME" == "n/a"  -a "$BUILDKITE_BRANCH" == 'master' ]; then
 cat <<EOF
 steps:
   - label: ':docker: Build images'
-    command: make build
+    command: bin/alpine build
   - wait
   - label: ':hammer: Run tests'
-    command: make test
+    command: bin/alpine tests
   - wait
   - block: ':github: Release'
     prompt: "Fill out the details for release"
@@ -56,7 +56,7 @@ steps:
   - command: .buildkite/release.sh
   - wait
   - label: ':docker: Release on Dockerhub'
-    command: make release
+    command: bin/alpine release
 EOF
 exit 0
 fi
@@ -65,8 +65,8 @@ fi
 cat <<EOF
 steps:
   - label: ':docker: Build images'
-    command: make build
+    command: bin/alpine build
   - wait
   - label: ':hammer: Run tests'
-    command: make test
+    command: bin/alpine tests
 EOF
