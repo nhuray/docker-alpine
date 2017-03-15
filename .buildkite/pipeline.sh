@@ -52,8 +52,8 @@ fi
 if [ "$RELEASE_NAME" != "n/a" -a "$BUILDKITE_BRANCH" == 'master' ]; then
 cat <<EOF
 steps:
-    label: ':github: Release'
-  - command: .buildkite/release.sh
+  - label: ':github: Release'
+    command: .buildkite/release.sh
   - wait
   - label: ':docker: Release on Dockerhub'
     command: bin/alpine release
