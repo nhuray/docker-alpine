@@ -21,7 +21,7 @@ valid_commands[help]="Display this help"
 
 declare -A valid_options
 valid_options["--version"]="The version we want to build, tests or release"
-valid_options["--verbose"]="Display Terraform commands"
+valid_options["--verbose"]="Display commands to run"
 valid_options["--build"]="Build images before running tests"
 valid_options["--tests"]="Comma separated list of tests to run"
 valid_options["--test"]="A single test to run (in debug mode)"
