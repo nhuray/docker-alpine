@@ -15,11 +15,8 @@ set -e
 if [ "$RELEASE_NAME" == "n/a"  -a "$BUILDKITE_BRANCH" == 'master' ]; then
 cat <<EOF
 steps:
-  - label: ':docker: Build images'
-    command: bin/alpine build
-  - wait
   - label: ':hammer: Run tests'
-    command: bin/alpine tests
+    command: bin/alpine tests --build
   - wait
   - block: ':github: Release'
     prompt: "Fill out the details for release"
@@ -64,9 +61,6 @@ fi
 # Pull Requests
 cat <<EOF
 steps:
-  - label: ':docker: Build images'
-    command: bin/alpine build
-  - wait
   - label: ':hammer: Run tests'
-    command: bin/alpine tests
+    command: bin/alpine tests --build
 EOF

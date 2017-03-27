@@ -83,41 +83,55 @@ parse_opts(){
 
 build(){
  for VERSION in "${VERSIONS[@]}"; do
-    info "Building image '$IMAGE:$VERSION' ..."
-    run_command="docker build -t $IMAGE:$VERSION -f versions/$VERSION/Dockerfile ."
-    test "xtrue" = "x${verbose}" && debug "${run_command}"
-    ${run_command}
+    export VERSION=${VERSION};
+    build_image
     info "Tagging image '$IMAGE:$VERSION' to '$IMAGE:$VERSION-$BUILD_NUM' ..."
     run_command="docker tag $IMAGE:$VERSION $IMAGE:$VERSION-$BUILD_NUM"
-    test "xtrue" = "x${verbose}" && debug "${run_command}"
-    ${run_command}
-    info "Building image '$IMAGE_TEST:$VERSION' ..."
-    run_command="docker build -t $IMAGE_TEST:$VERSION -f versions/$VERSION/Dockerfile-tests ."
     test "xtrue" = "x${verbose}" && debug "${run_command}"
     ${run_command}
   done
 }
 
+build_image(){
+  test -n "$VERSION" || { error "Please set --version argument to define the version you want to debug"; exit 1;}
+  info "Building image '$IMAGE:$VERSION' ..."
+  run_command="docker build -t $IMAGE:$VERSION -f $BASE_DIR/versions/$VERSION/Dockerfile ."
+  test "xtrue" = "x${verbose}" && debug "${run_command}"
+  ${run_command}
+}
+
+build_test_image(){
+  test -n "$VERSION" || { error "Please set --version argument to define the version you want to debug"; exit 1;}
+  info "Building image '$IMAGE_TEST:$VERSION' ..."
+  run_command="docker build -t $IMAGE_TEST:$VERSION -f $BASE_DIR/versions/$VERSION/Dockerfile-tests ."
+  test "xtrue" = "x${verbose}" && debug "${run_command}"
+  ${run_command}
+}
+
 run_debug(){
-  test -n "${build}" && build
   test -n "$VERSION" || { error "Please set --version argument to define the version you want to debug"; exit 1;}
   test -n "$TEST" || { error "Please set --test argument to define the test you want to debug"; exit 1; }
+  test -n "${build}" && { build_image; build_test_image; }
   info "Running test in debug '$TEST' on version '$VERSION' ..."
-  run_command="docker-compose -f debug.yml run --rm $TEST"
+  rm -f .env && echo "VERSION=${VERSION}" > .env
+  run_command="docker-compose -f $BASE_DIR/debug.yml run --rm $TEST"
   test "xtrue" = "x${verbose}" && debug "${run_command}"
-  export VERSION; ${run_command}
+  ${run_command}
 }
 
 
 tests(){
-  test -n "${build}" && build
   for VERSION in "${VERSIONS[@]}"; do
+    test -n "${build}" && { build_image; build_test_image; }
+    rm -f .env && echo "VERSION=${VERSION}" > .env
     for TEST in "${TESTS[@]}"; do
-        info "Running test '$TEST' on version '$VERSION' ..."
-        run_command="docker-compose -f tests.yml run --rm $TEST"
-        test "xtrue" = "x${verbose}" && debug "${run_command}"
-        export VERSION; ${run_command}
+      info "Running test '$TEST' on version '$VERSION' ..."
+      run_command="docker-compose  -f $BASE_DIR/tests.yml run --rm $TEST"
+      test "xtrue" = "x${verbose}" && debug "${run_command}"
+      ${run_command}
     done
+    docker-compose -f $BASE_DIR/tests.yml stop
+    docker-compose -f $BASE_DIR/tests.yml rm -f
   done
 }
 
