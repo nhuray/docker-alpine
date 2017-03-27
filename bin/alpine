@@ -117,6 +117,8 @@ run_debug(){
   run_command="docker-compose -f $BASE_DIR/debug.yml run --rm $TEST"
   test "xtrue" = "x${verbose}" && debug "${run_command}"
   ${run_command}
+  docker-compose -f $BASE_DIR/tests.yml stop
+  docker-compose -f $BASE_DIR/tests.yml rm -f
 }
 
 

@@ -11,8 +11,7 @@ function register_service {
     require_env CONSUL_ADDRESS
     service=$1
     tag=$2
-    local payload=$(curl -s http://consul:8500/v1/catalog/service/consul | jq -r '.[] | {  address: .Address, port:.ServicePort}')
-    port=8500
+    local payload=$(curl -s http://${CONSUL_ADDRESS}/v1/catalog/service/consul | jq -r '.[] | {  address: .Address, port:.ServicePort}')
     address=$(echo ${payload} | jq -r '.address')
 
 body=$(cat << EOF
@@ -24,7 +23,7 @@ body=$(cat << EOF
     "ID": "$service",
     "Service": "$service",
     "Address": "$address",
-    "Port": $port,
+    "Port": 8500,
     "Tags": ["$tag"]
   },
   "Check": {
@@ -38,8 +37,8 @@ body=$(cat << EOF
 }
 EOF
 )
-    echo "Registering service '$service' (Address : $address, Port: $port, "Tags:", $tags)"
-    curl -H 'Content-Type: application/json' -XPUT -d "${body}" http://$CONSUL_ADDRESS/v1/catalog/register
+    echo "Registering service '$service' (Address : $address, Port: 8500, Tag: $tag)"
+    curl -H 'Content-Type: application/json' -XPUT -d "${body}" http://${CONSUL_ADDRESS}/v1/catalog/register
 }
 
 function register_key {
@@ -49,7 +48,7 @@ function register_key {
     value=$2
 
     echo "Registering key '$key'"
-    curl -s -H 'Content-Type: application/json' -XPUT -d "${value}" "http://$CONSUL_ADDRESS/v1/kv/$key"  > /dev/null
+    curl -s -H 'Content-Type: application/json' -XPUT -d "${value}" "http://${CONSUL_ADDRESS}/v1/kv/$key"  > /dev/null
 }
 
 function random_ip {

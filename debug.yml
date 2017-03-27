@@ -4,15 +4,15 @@ version: '2'
 # Defines the services
 services:
 
-  # Test image (packages, services, scripts)
+  # Debug tests for image (packages, services, scripts)
   test-image:
     image: bandsintown/alpine-test:${VERSION}
     command: bash
     depends_on:
-      - consul
+      - test-consul
     environment:
       - VERSION=${VERSION}
-      - CONSUL_ADDRESS=consul:8500
+      - CONSUL_ADDRESS=test-consul:8500
     stdin_open: true
     tty: true
     working_dir: /tests/image
@@ -37,27 +37,15 @@ services:
      tty: true
      working_dir: /tests/go-dnsmasq
 
-  # Test debug  with Multiple DNS Nameserver and Search Domain
-  test-dns-multiple:
-     extends:
-       file: tests.yml
-       service: test-dns-multiple
-     command: bash
-     depends_on:
-       - consul
-     stdin_open: true
-     tty: true
-     working_dir: /tests/go-dnsmasq
-
   # Test debug for consul template
   test-consul-template:
     image: bandsintown/alpine-test:${VERSION}
     command: bash
     depends_on:
-      - consul
+      - test-consul
     environment:
       - DISABLE_CONSUL_TEMPLATE=true
-      - CONSUL_ADDRESS=consul:8500
+      - CONSUL_ADDRESS=test-consul:8500
       - S6_LOGGING=1
       - VERSION=${VERSION}
     volumes:
@@ -68,7 +56,7 @@ services:
     working_dir: /tests/consul-template
 
   # Consul
-  consul:
+  test-consul:
     image: consul
     command: "agent -dev -client 0.0.0.0 -ui"
     ports:
