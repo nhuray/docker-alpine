@@ -140,16 +140,14 @@ tests(){
 release(){
   build
   for VERSION in "${VERSIONS[@]}"; do
-    for TEST in "${TESTS[@]}"; do
-        info "Releasing '$IMAGE:$VERSION' ..."
-        run_command="docker push $IMAGE:$VERSION"
-        test "xtrue" = "x${verbose}" && debug "${run_command}"
-        ${run_command}
-        info "Releasing '$IMAGE:$VERSION-$BUILD_NUM' ..."
-        run_command="docker push $IMAGE:$VERSION-$BUILD_NUM"
-        test "xtrue" = "x${verbose}" && debug "${run_command}"
-        ${run_command}
-    done
+    info "Releasing '$IMAGE:$VERSION' ..."
+    run_command="docker push $IMAGE:$VERSION"
+    test "xtrue" = "x${verbose}" && debug "${run_command}"
+    ${run_command}
+    info "Releasing '$IMAGE:$VERSION-$BUILD_NUM' ..."
+    run_command="docker push $IMAGE:$VERSION-$BUILD_NUM"
+    test "xtrue" = "x${verbose}" && debug "${run_command}"
+    ${run_command}
   done
 }
 
