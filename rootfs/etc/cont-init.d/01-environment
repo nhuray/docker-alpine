@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+
+# Defines the number of CPU cores
+echo "$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1)" > /var/run/s6/container_environment/NPROC
