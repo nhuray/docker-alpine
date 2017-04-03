@@ -1,3 +1,5 @@
+[![Build status](https://badge.buildkite.com/f78e045c0b561ba33f80f3c996ccfe89b49ade24b832f92bfd.svg)](https://buildkite.com/bandsintown/docker-alpine)
+	
 # What is Alpine Linux?
 
 ![logo](https://github.com/bandsintown/docker-alpine/blob/master/logo.png)
