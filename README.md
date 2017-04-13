@@ -15,7 +15,8 @@ This image is derived from the well tested and documented [Alpine Docker image](
  - the [s6 supervisor for containers](https://github.com/just-containers/s6-overlay) 
  - a lightweight [DNS resolver](https://github.com/janeczku/go-dnsmasq) with minimal runtime and filesystem overhead 
  - [Consul Template](https://github.com/hashicorp/consul-template) for service discovery and configuration management
- - some useful packages: `bash`, `tree`, `curl`, `wget`
+ - some useful packages: `bash`, `tree`, `curl`, `wget`, 
+ - since 3.5 this packages have been added:`jq`, `bind-tools`, `consul`
 
 ## Motivation
 
