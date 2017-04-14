@@ -1,4 +1,4 @@
-## V1.0.1 (April 13, 2017) 
+## v1.0.1 (April 13, 2017) 
 
 ### Environment Variables
 
@@ -8,7 +8,7 @@ The following environment variable have been added:
   It's possible to define another port with the variable `CONSUL_PORT`
 
   
-## V1.0.0 (April 2, 2017) 
+## v1.0.0 (April 2, 2017) 
 
 ### Packages installed
 
