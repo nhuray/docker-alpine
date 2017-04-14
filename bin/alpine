@@ -114,7 +114,7 @@ run_debug(){
   test -n "${build}" && { build_image; build_test_image; }
   info "Running test in debug '$TEST' on version '$VERSION' ..."
   rm -f .env && echo "VERSION=${VERSION}" > .env
-  run_command="docker-compose -f $BASE_DIR/debug.yml run --rm $TEST"
+  run_command="docker-compose -f $BASE_DIR/tests.yml -f $BASE_DIR/debug.yml run --rm $TEST"
   test "xtrue" = "x${verbose}" && debug "${run_command}"
   ${run_command}
   docker-compose -f $BASE_DIR/tests.yml stop
