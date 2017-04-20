@@ -1,3 +1,9 @@
+## v1.0.3 (April 20, 2017) 
+
+### Improvements
+
+  - Use su-exec to run consul-template with a user
+
 ## v1.0.2 (April 19, 2017) 
 
 ### Packages installed
