@@ -20,7 +20,7 @@ RUN apk update && apk upgrade && \
     rm -f consul-template* && \
     chmod +x /usr/sbin/go-dnsmasq && \
     echo -ne "Alpine Linux 3.4 image. (`uname -rsv`)\n" >> /root/.built && \
-    echo -ne "- with S6 Overlay: $S6_OVERLAY_VERSION, Go DNS Mask: $GODNSMASQ_VERSION, Consul Template: $CONSUL_TEMPLATE_VERSION\n" >> /root/.built
+    echo -ne "- with S6 Overlay: $S6_OVERLAY_VERSION, GoDnsMasq: $GODNSMASQ_VERSION, Consul Template: $CONSUL_TEMPLATE_VERSION\n" >> /root/.built
 
 # Disable S6 logs on stdout/stderr
 ENV S6_LOGGING=1
