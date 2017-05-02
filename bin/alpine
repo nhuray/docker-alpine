@@ -138,7 +138,6 @@ tests(){
 }
 
 release(){
-  build
   test -n "${DOCKERHUB_USERNAME}" || { error "Please set the variable DOCKERHUB_USERNAME to release."; exit 1;}
   test -n "${DOCKERHUB_PASSWORD}" || { error "Please set the variable DOCKERHUB_PASSWORD to release."; exit 1;}
   build
@@ -163,7 +162,7 @@ has_item "$command" "${!valid_commands[@]}" || help
 
 cd $BASE_DIR
 
-VERSIONS=(3.4 3.5)
+VERSIONS=($(ls $BASE_DIR/versions))
 IMAGE="bandsintown/alpine"
 IMAGE_TEST="$IMAGE-test"
 BUILD_NUM="$(git rev-parse --short HEAD)"
