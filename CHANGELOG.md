@@ -17,7 +17,7 @@ The following package has been added:
 
 The following environment variable have been added:
   - `EC2_IP`: Defines the IP of the EC2 instance when the container is running on AWS.
-  - `CONSUL_ADDRESS`: The address of Consul agent. This variable is inferred from `EC2_IP` and the Consul port is the HTTP port (`8500`). 
+  - `CONSUL_HTTP_ADDR`: The address of Consul agent. This variable is inferred from `EC2_IP` and the Consul port is the HTTP port (`8500`). 
   It's possible to define another port with the variable `CONSUL_PORT`
 
   
