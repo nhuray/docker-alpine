@@ -54,6 +54,14 @@ steps:
   - wait
   - label: ':docker: Release on Dockerhub'
     command: bin/alpine release
+  - label: ':buildkite: Trigger Docker Nginx'
+    trigger: docker-nginx
+    async: true
+    message: ":docker: Base image rebuild"
+  - label: ':buildkite: Trigger Docker OpenJDK'
+    trigger: docker-openjdk
+    async: true
+    message: ":docker: Base image rebuild"
 EOF
 exit 0
 fi
